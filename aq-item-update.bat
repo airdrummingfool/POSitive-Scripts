@@ -7,16 +7,25 @@ REM - Modified by: Tommy Goode ;)
 IF %1.==. GOTO ArgError
 IF %2.==. GOTO ArgError
 
+set start_time=%DATE% %TIME%
+set results_file=%~dp0results.txt
+set log_file=%~dp0log.log
+
 :SQL
 echo.
-echo Start time: %DATE% %TIME%
+echo Start time: %start_time%
 echo Executing script, do NOT close this window until complete.
 echo ======================================================
-sqlcmd -U %1 -P %2 -S IRD2K12\SQL2012 -d AQEXPORT -i %~dp0aq-item-update.sql -o %~dp0results.txt
+sqlcmd -U %1 -P %2 -S IRD2K12\SQL2012 -d AQEXPORT -i %~dp0aq-item-update.sql -o %results_file%
 echo ======================================================
 echo End time: %DATE% %TIME%
 echo.
-echo Script complete. Check %~dp0results.txt for details.
+
+:Reporting
+echo Run date: %start_time%>>%log_file%
+type %results_file%>>%log_file%
+echo ------------------------------------------->>%log_file%
+echo Script complete. Check %results_file% for details.
 echo.
 PAUSE
 GOTO End
