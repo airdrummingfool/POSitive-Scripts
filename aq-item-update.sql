@@ -4,8 +4,8 @@
 
 -- Create a temporary table to link POSitive item numbers to AQ product IDs
 use aqexport
-IF OBJECT_ID('dbo.AQ5starLink', 'U') IS NOT NULL DROP TABLE dbo.AQ5starLink
-select productid, bar_invno as invno into AQ5starLink
+IF OBJECT_ID('dbo.AQ5StarLink', 'U') IS NOT NULL DROP TABLE dbo.AQ5StarLink
+select productid, bar_invno as invno into AQ5StarLink
 from products inner join ird_master.dbo.barcodes 
 	on bar_barcode = left(rtrim(model) + '@' + rtrim(vendornumber),20) and bar_id = 2
 go
@@ -33,13 +33,25 @@ from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.pr
 	inner join notes on nts_n_id = invno and nts_type = 'X'
 where nts_type = 'X'
 
--- Weight and Freight Class (currently includes a fix for the POSitive DB not accepting decimal freight classes)
-update items set ite_weight = [Weight], ite_freightclass = case when isnumeric(freightclass) = 1 then floor(cast(freightclass as float)) else 0 end
+-- Weight
+update items set ite_weight = [Weight]
+from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+	inner join items on ite_invno = invno
+
+-- Freight Class (currently includes a fix for the POSitive DB not accepting decimal freight classes)
+update items set ite_freightclass = case
+	when isnumeric(freightclass) = 1 then floor(cast(freightclass as float))
+	else 0
+end
 from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
 	inner join items on ite_invno = invno
 
 -- UDF Field: Dimensions = HEIGHTxWIDTHxDEPTH
-update udfields set udf_udfld1 = FORMAT([Height], 'G0') + 'x' + FORMAT([Width], 'G0') + 'x' + FORMAT([Depth], 'G0')
+update udfields set udf_udfld1 = case
+	when ([Height] + [Width] + [Depth]) > 0 then FORMAT([Height], 'G0') + 'x' + FORMAT([Width], 'G0') + 'x' + FORMAT([Depth], 'G0')
+	when udf_udfld1 = '0x0x0' then ''
+	else udf_udfld1
+end
 from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
 	inner join udfields on udf_invno = invno and udf_uddes1 = 'Dimensions'
 where udf_uddes1 = 'Dimensions'

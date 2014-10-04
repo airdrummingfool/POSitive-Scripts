@@ -18,7 +18,7 @@ echo Executing script, do NOT close this window until complete.
 echo ======================================================
 sqlcmd -U %1 -P %2 -S IRD2K12\SQL2012 -d AQEXPORT -i %~dp0aq-item-update.sql -o %results_file%
 echo ======================================================
-echo End time: %DATE% %TIME%
+echo End time:   %DATE% %TIME%
 echo.
 
 :Reporting
