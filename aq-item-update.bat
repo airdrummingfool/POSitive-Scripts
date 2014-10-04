@@ -8,7 +8,7 @@ IF %1.==. GOTO ArgError
 IF %2.==. GOTO ArgError
 
 set start_time=%DATE% %TIME%
-set results_file=%~dp0results.txt
+set results_file=%~dp0last_run.log
 set log_file=%~dp0log.log
 
 :SQL
