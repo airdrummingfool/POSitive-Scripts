@@ -14,6 +14,10 @@ update itmcount set itc_lastcost = NetPrice
 from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
 	inner join itmcount on itc_invno = invno
 
+update veninv set vin_cost = NetPrice
+from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+	inner join veninv on vin_invno = invno
+
 update notes set nts_note = Spec
 from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
 	inner join notes on nts_n_id = invno and nts_type = 'X'
