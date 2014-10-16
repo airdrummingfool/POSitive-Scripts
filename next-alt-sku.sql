@@ -1,0 +1,4 @@
+SET NOCOUNT ON
+SELECT TOP 1 convert(int, BAR_BARCODE)+1 FROM [BARCODES]
+WHERE BAR_ID = 0 AND isnumeric(BAR_BARCODE) = 1 AND try_convert(int, BAR_BARCODE) IS NOT null
+ORDER BY convert(int, BAR_BARCODE) DESC
