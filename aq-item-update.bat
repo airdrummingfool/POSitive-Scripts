@@ -4,9 +4,6 @@ REM - Description: Runs a SQL script that updates 5Star item info from AQ databa
 REM - Author: Devin Spikowski
 REM - Modified by: Tommy Goode ;)
 
-IF %1.==. GOTO ArgError
-IF %2.==. GOTO ArgError
-
 set start_time=%DATE% %TIME%
 set results_file=%~dp0last_run.log
 set log_file=%~dp0log.log
@@ -16,7 +13,7 @@ echo.
 echo Start time: %start_time%
 echo Executing script, do NOT close this window until complete.
 echo ======================================================
-sqlcmd -U %1 -P %2 -S IRD2K12\SQL2012 -d AQEXPORT -i %~dp0aq-item-update.sql -o %results_file%
+call sqlcmdwrapper.bat -d AQEXPORT -i %~dp0aq-item-update.sql -o %results_file%
 echo ======================================================
 echo End time:   %DATE% %TIME%
 echo.
