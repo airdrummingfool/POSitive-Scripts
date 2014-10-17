@@ -22,14 +22,18 @@ for /f "delims=" %%a in ('call sqlcmdwrapper.bat -d %DB% -Q "SET NOCOUNT ON; SEL
 set CurrentAQSKU=null
 
 for /f "delims=" %%a in ('call sqlcmdwrapper.bat -d %DB% -Q "SET NOCOUNT ON; SELECT TOP 1 CASE WHEN BAR_BARCODE='' THEN 'empty' ELSE BAR_BARCODE END FROM BARCODES WHERE BAR_ID = 2 AND BAR_INVNO='%INVNO%';" -h -1 -W') do @set CurrentAQSKU=%%a
+IF "%CurrentAQSKU%" == "null" (set CurrentAQSKU=empty)
 
 echo You are about to update %PrimarySKU%: %DESC% (INVNO is %INVNO%)
 echo Current AQ SKU is %CurrentAQSKU%
 set /p NewAQSKU="Enter new AQ SKU: "
 
-call sqlcmdwrapper.bat -d %DB% -i aq-sku-update.sql -h -1 -W -v INVNO=%INVNO% NewAQSKU=%NewAQSKU%
+call sqlcmdwrapper.bat -d %DB% -i aq-sku-update.sql -h -1 -W -v INVNO="%INVNO%" NewAQSKU="%NewAQSKU%"
 
 set NewAQSKU=null
 
 for /f "delims=" %%a in ('call sqlcmdwrapper.bat -d %DB% -Q "SET NOCOUNT ON; SELECT TOP 1 CASE WHEN BAR_BARCODE='' THEN 'empty' ELSE BAR_BARCODE END FROM BARCODES WHERE BAR_ID = 2 AND BAR_INVNO='%INVNO%';" -h -1 -W') do @set NewAQSKU=%%a
 echo New AQ SKU is %NewAQSKU%
+
+echo.
+PAUSE
