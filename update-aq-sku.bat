@@ -28,7 +28,7 @@ echo You are about to update %PrimarySKU%: %DESC% (INVNO is %INVNO%)
 echo Current AQ SKU is %CurrentAQSKU%
 set /p NewAQSKU="Enter new AQ SKU: "
 
-call sqlcmdwrapper.bat -d %DB% -i aq-sku-update.sql -h -1 -W -v INVNO="%INVNO%" NewAQSKU="%NewAQSKU%"
+call sqlcmdwrapper.bat -d %DB% -i aq-sku\update-aq-sku.sql -h -1 -W -v INVNO="%INVNO%" NewAQSKU="%NewAQSKU%"
 
 set NewAQSKU=null
 
