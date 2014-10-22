@@ -25,17 +25,21 @@ set CurrentAQSKU=null
 for /f "delims=" %%a in ('call sqlcmdwrapper.bat -d %DB% -i aq-sku\invno-to-aqsku.sql -h -1 -W') do @set CurrentAQSKU=%%a
 IF "%CurrentAQSKU%" == "null" (set CurrentAQSKU=empty)
 
+set VendorSKU=null
+for /f "delims=" %%a in ('call sqlcmdwrapper.bat -d %DB% -i aq-sku\invno-to-vendorsku.sql -h -1 -W') do @set VendorSKU=%%a
+IF "%VendorSKU%" == "null" (set VendorSKU=empty)
+
 set VendorID=null
 for /f "usebackq delims=" %%a in (`call sqlcmdwrapper.bat -d %DB% -i aq-sku\invno-to-vendorid.sql -h -1 -W`) do @set VendorID=%%a
 IF "%VendorID%" == "null" (set VendorID=empty)
 
 echo You are about to update %PrimarySKU%: %DESC% (INVNO is %INVNO%)
 echo Current AQ SKU is %CurrentAQSKU%
-echo Recommended AQ SKU is %PrimarySKU%@%VendorID%
+echo Recommended AQ SKU is %VendorSKU%@%VendorID%
 set NewAQSKU=null
 set /p NewAQSKU="Enter new AQ SKU (leave empty to use recommended): "
 
-IF "%NewAQSKU%" == "null" (echo Using recommended... && set NewAQSKU=%PrimarySKU%@%VendorID%)
+IF "%NewAQSKU%" == "null" (echo Using recommended... && set NewAQSKU=%VendorSKU%@%VendorID%)
 
 call sqlcmdwrapper.bat -d %DB% -i aq-sku\update-aq-sku.sql -h -1 -W -v INVNO="%INVNO%" NewAQSKU="%NewAQSKU%"
 
