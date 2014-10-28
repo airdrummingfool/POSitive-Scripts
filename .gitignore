@@ -1,3 +1,7 @@
 *.log
 config.ini
 
+# OS Files
+.DS_Store
+desktop.ini
+
