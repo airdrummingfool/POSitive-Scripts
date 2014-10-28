@@ -1,41 +1,41 @@
 --
--- Begin POSitive Item Update Script
+-- Begin POSitive 5 Star Item AutoQuotes Update Script
 --
 
--- Create a temporary table to link POSitive item numbers to AQ product IDs
-use aqexport
+-- Create a temporary table to link POSitive 5 Star inventory numbers to AQ product IDs
+use $(autoquotes_db)
 IF OBJECT_ID('dbo.AQ5StarLink', 'U') IS NOT NULL DROP TABLE dbo.AQ5StarLink
 select productid, bar_invno as invno into AQ5StarLink
-from products inner join ird_master.dbo.barcodes 
+from Products inner join $(positive_db).dbo.barcodes
 	on bar_barcode = left(rtrim(model) + '@' + rtrim(vendornumber),20) and bar_id = 2
 go
 
 
-use ird_master
+use $(positive_db)
 -- Price Level 1 = List Price
 update itprice set itp_price1 = ListPrice
-from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
 	inner join itprice on itp_invno = invno
 
 -- Last Cost = AQ Net
 update itmcount set itc_lastcost = NetPrice
-from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
 	inner join itmcount on itc_invno = invno
 
 -- Vendor Cost = AQ Net
 update veninv set vin_cost = NetPrice
-from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
 	inner join veninv on vin_invno = invno
 
 -- Extended Notes = AQ Spec (Description)
 update notes set nts_note = Spec
-from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
 	inner join notes on nts_n_id = invno and nts_type = 'X'
 where nts_type = 'X'
 
 -- Weight
 update items set ite_weight = [Weight]
-from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
 	inner join items on ite_invno = invno
 
 -- Freight Class (currently includes a fix for the POSitive DB not accepting decimal freight classes)
@@ -43,7 +43,7 @@ update items set ite_freightclass = case
 	when isnumeric(freightclass) = 1 then floor(cast(freightclass as float))
 	else 0
 end
-from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
 	inner join items on ite_invno = invno
 
 -- UDF Field: Dimensions = HEIGHTxWIDTHxDEPTH
@@ -52,13 +52,13 @@ update udfields set udf_udfld1 = case
 	when udf_udfld1 = '0x0x0' then ''
 	else udf_udfld1
 end
-from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
 	inner join udfields on udf_invno = invno and udf_uddes1 = 'Dimensions'
 where udf_uddes1 = 'Dimensions'
 
 -- UDF Field: CutsheetLink = AQ Custsheet Link
 update udfields set udf_udfld1 = CutsheetLink
-from aqexport.dbo.products inner join aqexport.dbo.aq5starlink on aq5starlink.productid = products.productid
+from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
 	inner join udfields on udf_invno = invno and udf_uddes1 = 'CutsheetLink'
 where udf_uddes1 = 'CutsheetLink'
 go
