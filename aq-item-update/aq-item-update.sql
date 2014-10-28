@@ -10,7 +10,7 @@ from Products inner join $(positive_db).dbo.barcodes
 	on bar_barcode = left(rtrim(model) + '@' + rtrim(vendornumber),20) and bar_id = 2
 go
 
-
+-- Begin updating the POSitive 5 Star items
 use $(positive_db)
 -- Price Level 1 = List Price
 update itprice set itp_price1 = ListPrice
