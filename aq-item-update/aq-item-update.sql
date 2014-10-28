@@ -7,7 +7,7 @@ use $(autoquotes_db)
 IF OBJECT_ID('dbo.AQ5StarLink', 'U') IS NOT NULL DROP TABLE dbo.AQ5StarLink
 select productid, bar_invno as invno into AQ5StarLink
 from Products inner join $(positive_db).dbo.barcodes
-	on bar_barcode = left(rtrim(model) + '@' + rtrim(vendornumber),20) and bar_id = 2
+	on rtrim(bar_barcode) = left(rtrim(model) + '@' + rtrim(vendornumber),20) and bar_id = 2
 go
 
 -- Begin updating the POSitive 5 Star items
