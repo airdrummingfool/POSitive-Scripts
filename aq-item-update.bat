@@ -4,6 +4,7 @@ REM - Description: Runs a SQL script that updates 5Star item info from AQ databa
 REM - Original Author: Devin Spikowski
 REM - Modified by: Tommy Goode
 
+: Setup
 set start_time=%DATE% %TIME%
 set results_file=%~dp0aq-item-update\last_run.log
 set log_file=%~dp0aq-item-update\log.log
@@ -24,4 +25,6 @@ type %results_file%>>%log_file%
 echo ------------------------------------------->>%log_file%
 echo Script complete. Check %results_file% for details.
 echo.
+
+:End
 PAUSE

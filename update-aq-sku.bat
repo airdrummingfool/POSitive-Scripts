@@ -3,7 +3,8 @@ REM - File: update-aq-sku.bat
 REM - Description: Runs a SQL script that updates the set AQ SKU
 REM - Author: Tommy Goode
 
-set DB=IRD_MASTER
+call loadconfig.bat
+set DB=%positive_db%
 
 : Enter Primary SKU of item
 set PrimarySKU=null
