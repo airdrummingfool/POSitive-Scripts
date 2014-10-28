@@ -14,7 +14,7 @@ echo.
 echo Start time: %start_time%
 echo Executing script, do NOT close this window until complete.
 echo ======================================================
-call sqlcmdwrapper.bat -i %~dp0aq-item-update\aq-item-update.sql -o %results_file%
+call util\sqlcmdwrapper.bat -i %~dp0aq-item-update\aq-item-update.sql -o %results_file%
 echo ======================================================
 echo End time:   %DATE% %TIME%
 echo.
