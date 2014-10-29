@@ -1,3 +1,11 @@
+/*
+ * Updates or creates an entry for an item's AQ SKU
+ *
+ * @author: Tommy Goode
+ * @copyright: 2014 International Restaurant Distributors, Inc.
+ *
+ */
+
 DECLARE @maxpid AS int = (select max(BAR_PrimaryID) from BARCODES)
 
 IF EXISTS (SELECT * FROM BARCODES WHERE BAR_ID = 2 AND BAR_INVNO = $(INVNO))

@@ -1,9 +1,18 @@
--- Grab all Alt SKUs, join to Primary SKU, and exclude ones that are similar to the primary SKU (e.g. Alt SKU = [Primary SKU]@[VendorID] or vice versa)
-SET NOCOUNT ON
+/*
+ * Generates the next sequential numeric Alt. SKU, ignoring Alt. SKUs that are similar to the Primary SKU
+ *  e.g. Alt SKU = [Primary SKU]@[VendorID] or vice versa
+ *
+ * @author: Tommy Goode
+ * @copyright: 2014 International Restaurant Distributors, Inc.
+ *
+ */
+
+SET NOCOUNT ON;
+
 SELECT TOP 1 CONVERT(int, ALT_BARCODES.BAR_BARCODE)+1
   FROM BARCODES AS ALT_BARCODES
     LEFT JOIN BARCODES as PRIMARY_BARCODES
-	  ON ALT_BARCODES.BAR_INVNO = PRIMARY_BARCODES.BAR_INVNO AND PRIMARY_BARCODES.BAR_ID = 1
+    ON ALT_BARCODES.BAR_INVNO = PRIMARY_BARCODES.BAR_INVNO AND PRIMARY_BARCODES.BAR_ID = 1
   WHERE ALT_BARCODES.BAR_ID = 0
     -- Do weird truncation because LIKE [column] + '%' doesn't seem to work
     -- AND NOT PRIMARY_BARCODES.BAR_BARCODE + '%' LIKE ALT_BARCODES.BAR_BARCODE +'%'

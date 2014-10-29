@@ -1,3 +1,11 @@
+/*
+ * Returns an AQ SKU given a POSitive Inventory Number (INVNO)
+ *
+ * @author: Tommy Goode
+ * @copyright: 2014 International Restaurant Distributors, Inc.
+ *
+ */
+
 SET NOCOUNT ON;
 DECLARE @INVNO int;
 -- SET @INVNO = 2001922; -- Used when testing, otherwise value should be passed in to next line

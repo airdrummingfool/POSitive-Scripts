@@ -2,6 +2,7 @@
 REM - File: update-aq-sku.bat
 REM - Description: Runs a SQL script that updates the set AQ SKU
 REM - Author: Tommy Goode
+REM - Copyright 2014 International Restaurant Distributors, Inc.
 
 call util\loadconfig.bat
 set DB=%positive_db%

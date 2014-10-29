@@ -1,3 +1,11 @@
+/*
+ * Lists items that have the same long description as another item
+ *
+ * @author: Tommy Goode
+ * @copyright: 2014 International Restaurant Distributors, Inc.
+ *
+ */
+
 SELECT ITE_BARCODE as Barcode, ITE_LONGDESC as LongDescription, * FROM ITEMS
   WHERE ITE_LONGDESC IN (
     SELECT ITE_LONGDESC

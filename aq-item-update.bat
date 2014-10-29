@@ -3,6 +3,7 @@ REM - File: aq-item-update.bat
 REM - Description: Runs a SQL script that updates 5Star item info from AQ database
 REM - Original Author: Devin Spikowski
 REM - Modified by: Tommy Goode
+REM - Copyright 2014 International Restaurant Distributors, Inc.
 
 : Setup
 set start_time=%DATE% %TIME%
