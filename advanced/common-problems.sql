@@ -31,3 +31,15 @@ SELECT ITE_INVNO, ITE_BARCODE, ITE_DESCRIPTION, *
     SELECT VIN_INVNO
       FROM VENINV
     )
+
+-- Bad BinPic (Picture) entries
+SELECT *
+  FROM BINPIC
+  WHERE BIP_ID = 0 OR (BIP_Type = 2 AND BIP_Filename = '') OR BIP_Picture IS NULL
+
+-- Duplicate AutoQuotes SKUs from AQ (not much you can do about this except bug POSitive to increase SKU limits)
+SELECT left(rtrim(model) + '@' + rtrim(vendornumber),20), COUNT(left(rtrim(model) + '@' + rtrim(vendornumber),20))
+  FROM [$(autoquotes_db)].[dbo].[Products]
+  GROUP BY left(rtrim(model) + '@' + rtrim(vendornumber),20)
+  HAVING COUNT(left(rtrim(model) + '@' + rtrim(vendornumber),20)) > 1
+  ORDER BY COUNT(left(rtrim(model) + '@' + rtrim(vendornumber),20)) desc
