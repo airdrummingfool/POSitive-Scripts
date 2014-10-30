@@ -6,7 +6,8 @@ This is a collection of batch (.bat) and Microsoft SQL Server (.sql) scripts for
 
 ## Setup ##
 ### Basic ###
-* In the scripts root directory, create a file called `config.ini` with the following content (omit the `[]`):
+1. Clone the repository, or use the [Download Zip](https://github.com/airdrummingfool/POSitive-Scripts/archive/master.zip) link to download a copy of the repository and extract into an empty folder.
+1. In the repository folder, create a file called `config.ini` with the following content (omit `[]`s):
 
 	```
 	username=[your SQLServer Username]
@@ -46,4 +47,4 @@ This code is a work-in-progress, and probably has some bugs or corner cases that
 All content and code is Copyright 2014 [International Restaurant Distributors, Inc](http://irdequipment.com).
 
 ## Disclaimer ##
-These scripts have only been tested in limited scenarios. We use all of them in production, but we in no way guarantee their functionality, or that they won't blow up your database. There is no warranty, express or implied, yadda yadda. Make regular backups, and don't use these scripts if you don't know what you're doing.
+These scripts have only been tested in limited scenarios, and not at all in a multi-site installation. We use all of them in production, but we in no way guarantee their functionality, or that they won't blow up your database. There is no warranty, express or implied, yadda yadda. Make regular backups, and don't use these scripts if you don't know what you're doing.
