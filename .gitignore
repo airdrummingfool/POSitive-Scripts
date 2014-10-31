@@ -1,5 +1,6 @@
 *.log
 config.ini
+temp/
 
 # OS Files
 .DS_Store
