@@ -17,6 +17,13 @@ go
 
 -- Begin updating the POSitive 5 Star items
 use $(positive_db)
+
+-- First, make sure we've increased UDF size limits (for storing CutsheetLink - this works as long as you don't directly edit the CutsheetLink field in POSitive)
+IF (
+  (SELECT CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'UDFIELDS' AND COLUMN_NAME = 'UDF_UDFLD1') < 60)
+  ALTER TABLE UDFIELDS ALTER COLUMN UDF_UDFLD1 char(60)
+go
+
 -- Price Level 1 = List Price
 update itprice set itp_price1 = ListPrice
 from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
@@ -47,7 +54,7 @@ from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink o
 update items set ite_freightclass =
   case
     when isnumeric(freightclass) = 1 then floor(cast(freightclass as float))
-    else 0
+    else ite_freightclass
   end
 from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
   inner join items on ite_invno = invno
