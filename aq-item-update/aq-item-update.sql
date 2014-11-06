@@ -33,11 +33,15 @@ from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink o
 update itmcount set itc_lastcost = NetPrice
 from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
   inner join itmcount on itc_invno = invno
+  left join items on invno = ite_invno
+where ite_foodstamps != 1  -- We're using the 'Allow Food Stamps' option as 'Disallow Cost Updates'
 
 -- Vendor Cost = AQ Net
 update veninv set vin_cost = NetPrice
 from $(autoquotes_db).dbo.Products inner join $(autoquotes_db).dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
   inner join veninv on vin_invno = invno
+  left join items on invno = ite_invno
+where ite_foodstamps != 1  -- We're using the 'Allow Food Stamps' option as 'Disallow Cost Updates'
 
 -- Extended Notes = AQ Spec (Description)
 update notes set nts_note = Spec
