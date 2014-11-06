@@ -34,6 +34,9 @@ Our showroom likes to use short, 4-5 digit numeric codes for items, which simpli
 ### Update-AQ-SKU.bat ###
 This script allows you to modify the AQ SKU of any item. It makes a best-guess recommendation of what the SKU should be based on the Vendor SKU and the Vendor ID (if the Vendor ID is stored in the Vendor AutoSKU field).
 
+### Update-Station-Wallpaper.bat ###
+This script allows you to modify the wallpaper settings of all POSitive stations at once. You can specify the path to an image file to use as the wallpaper (must be accessible to all stations, such as on a mapped drive or network path) as well as whether to tile or center that image.
+
 ### Advanced folder ###
 This folder contains SQL scripts you can run directly via SQL Server Management Studio.
 * `common-problems.sql`: Points out common problems and POSitive DB inconsistencies, such as bad AQ or Vendor SKUs, missing primary vendors, etc.
