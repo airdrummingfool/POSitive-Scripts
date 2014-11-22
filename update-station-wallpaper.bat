@@ -5,6 +5,15 @@ REM - Author: Tommy Goode
 REM - Copyright 2014 International Restaurant Distributors, Inc.
 
 call util\loadconfig.bat
+
+set "DB=%1"
+set "WallpaperPath=%~2"
+set "DisplayStyle=%3"
+if "%3" == "" goto NOARGS
+
+goto READY
+
+:NOARGS
 set DB=%positive_db%
 
 :FILENAME
@@ -23,8 +32,8 @@ if not exist "%WallpaperPath%" echo Could not find file && goto FILENAME
 set DisplayStyle=null
 set DisplayStylePretty=null
 set /p DisplayStyle="Choose wallpaper display style (1=tile, 2=center, 0=keep existing): "
-echo.
 
+:READY
 2>NUL CALL :CASE_%DisplayStyle% # jump to :CASE_1, :CASE_2, etc.
 IF ERRORLEVEL 1 CALL :DEFAULT_CASE # if case doesn't exist
 
@@ -59,7 +68,8 @@ goto AFTER_CASE
 : AFTER_CASE
 if "%DisplayStyle%" == "-1" (GOTO DISPLAY_STYLE)
 
-echo You are about to update the wallpaper for ALL STATIONS to be %WallpaperPath%
+echo.
+echo You are about to update the wallpaper for ALL STATIONS of %DB% to be "%WallpaperPath%"
 if not "%DisplayStyle%" == "0" (echo and set the wallpaper display style to %DisplayStylePretty%)
 PAUSE
 
