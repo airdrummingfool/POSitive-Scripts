@@ -24,6 +24,20 @@ UPDATE BARCODES
     )
 GO
 
+-- Fix Vendor SKUs when they're only off by whitespace from a known-good AQ SKU
+UPDATE VENINV
+  SET VIN_VINO = rtrim(left(BAR_BARCODE, charindex('@', BAR_BARCODE) - 1))
+  FROM BARCODES
+    INNER JOIN ITPrice ON BAR_INVNO = ITP_INVNO
+  WHERE BAR_ID = 2
+    AND BAR_TYPE = 'I'
+    AND VIN_INVNO = BAR_INVNO
+    AND ITP_PVendorID = VIN_V_ID
+    AND charindex('@', BAR_BARCODE) > 0
+    AND VIN_VINO != rtrim(left(BAR_BARCODE, charindex('@', BAR_BARCODE) - 1))
+    AND VIN_VINO = replace(left(BAR_BARCODE, charindex('@', BAR_BARCODE) - 1), ' ', '')
+    AND EXISTS (SELECT * FROM #AQ_SKUs WHERE rtrim(AQ_SKU) = rtrim(BAR_BARCODE))
+
 -- Create empty AQ SKUs for all items that don't have one
 DECLARE @maxpid AS int = (SELECT max(BAR_PrimaryID) FROM BARCODES)
 INSERT INTO BARCODES
