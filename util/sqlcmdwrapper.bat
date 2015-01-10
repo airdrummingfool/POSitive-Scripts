@@ -4,7 +4,7 @@ REM - Description: Wrapper for sqlcmd.exe to provide credentials from a local fi
 REM - Author: Tommy Goode
 
 call %~dp0loadconfig.bat
-sqlcmd -U %username% -P %password% -S %instance% %*
+sqlcmd -b -U %username% -P %password% -S %instance% %*
 
 : Clean up private info
 set username=null
