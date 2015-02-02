@@ -13,6 +13,12 @@ SELECT ProductId AS AQ_PRODUCTID, left(rtrim(Model) + '@' + rtrim(VendorNumber),
   FROM AQEXPORT.dbo.Products
 GO
 
+-- Count all AQ SKUs before
+SELECT 'Good AQ SKUs before: ', count(*)
+  FROM BARCODES
+    WHERE BAR_ID = 2
+	  AND BAR_BARCODE IN (SELECT AQ_SKU from #AQ_SKUs)
+
 -- Clear all AQ SKUs that don't match up to anything in AutoQuotes
 UPDATE BARCODES
   SET BAR_BARCODE = ''
@@ -63,3 +69,9 @@ UPDATE BARCODES
     AND BAR_ID = 2
     AND BAR_TYPE = 'I'
 GO
+
+-- Count all good AQ SKUs after
+SELECT 'Good AQ SKUs after: ', count(*)
+  FROM BARCODES
+    WHERE BAR_ID = 2
+	  AND BAR_BARCODE IN (SELECT AQ_SKU from #AQ_SKUs)

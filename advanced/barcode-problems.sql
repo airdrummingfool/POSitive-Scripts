@@ -77,3 +77,12 @@ SELECT VIN_VINO AS CURRENT_VENDOR_SKU, left(BAR_BARCODE, charindex('@', BAR_BARC
     AND VIN_VINO != replace(left(BAR_BARCODE, charindex('@', BAR_BARCODE) - 1), ' ', '')
     AND EXISTS (SELECT * FROM #AQ_SKUs WHERE rtrim(AQ_SKU) = rtrim(BAR_BARCODE))
   ORDER BY AQ_VENDOR_SKU
+
+  -- Primary SKUs that have @[####] in them (i.e. created by an AQ import)
+  SELECT *
+    FROM BARCODES
+    WHERE BAR_ID = 1
+      AND BAR_TYPE = 'I'
+      AND charindex('@', BAR_BARCODE) > 0
+      AND isnumeric(right(rtrim(BAR_BARCODE), (len(BAR_BARCODE) - charindex('@', BAR_BARCODE)))) = 1
+    ORDER BY BAR_BARCODE
