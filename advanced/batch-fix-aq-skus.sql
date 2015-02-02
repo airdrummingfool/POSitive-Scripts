@@ -59,11 +59,11 @@ GO
 
 -- Update any empty AQ SKU that we can generate and verify
 UPDATE BARCODES
-  SET BAR_BARCODE = rtrim(AQ_SKU)
+  SET BAR_BARCODE = left(rtrim(AQ_SKU), 20)
   FROM ITPrice
     INNER JOIN VENDetail ON ITP_PVendorID = VED_V_ID
     INNER JOIN VENINV ON ITP_INVNO = VIN_INVNO AND ITP_PVendorID = VIN_V_ID
-    INNER JOIN #AQ_SKUs ON rtrim(AQ_SKU) = left(rtrim(VIN_VINO) + '@' + VED_FORSKU, 20)
+    INNER JOIN #AQ_SKUs ON left(rtrim(AQ_SKU), 20) = left(rtrim(VIN_VINO) + '@' + VED_FORSKU, 20)
   WHERE ITP_INVNO = BAR_INVNO
     AND BAR_BARCODE = ''
     AND BAR_ID = 2
