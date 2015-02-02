@@ -28,4 +28,3 @@ echo Script complete. Check %results_file% for details.
 echo.
 
 :End
-PAUSE
