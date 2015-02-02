@@ -1,6 +1,7 @@
 *.log
 config.ini
 temp/
+reports-bup/reports/
 
 # OS Files
 .DS_Store
