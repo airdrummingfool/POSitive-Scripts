@@ -10,7 +10,7 @@ DECLARE @maxpid AS int = (SELECT max(BIP_PrimaryID) FROM BINPIC WHERE BIP_Site =
 DECLARE @img AS varbinary(max) = (SELECT * FROM OPENROWSET(BULK '$(tmpjpg)', SINGLE_BLOB) as img)
 DECLARE @thumb AS varbinary(max) = (SELECT * FROM OPENROWSET(BULK '$(tmpthmb)', SINGLE_BLOB) as img)
 DECLARE @primarysku AS varchar(20) = (SELECT rtrim(BAR_BARCODE) FROM BARCODES WHERE BAR_INVNO = $(INVNO) AND BAR_ID = 1)
-DECLARE @imgdate AS datetime = (SELECT dateadd(ss, 1, AQPictureDate) FROM $(autoquotes_db).dbo.AQ5StarPictureLink WHERE INVNO = $(INVNO))  -- Add 1 second to the AQPicture date because we lose precision when we store in PRM split date/time format
+DECLARE @imgdate AS datetime = (SELECT dateadd(ss, 1, AQPictureDate) FROM [$(autoquotes_db)].dbo.AQ5StarPictureLink WHERE INVNO = $(INVNO))  -- Add 1 second to the AQPicture date because we lose precision when we store in PRM split date/time format
 
 -- Insert/update the main image
 IF EXISTS (SELECT * FROM BINPIC WHERE BIP_ID = $(INVNO) AND ITEM = 1)

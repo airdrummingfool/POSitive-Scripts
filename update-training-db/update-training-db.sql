@@ -6,11 +6,11 @@
  *
  */
 
-BACKUP DATABASE $(MASTER_DB)
+BACKUP DATABASE [$(MASTER_DB)]
   TO DISK = '$(TEMP_DIR)\master-to-training-db.bak'
 GO
 
-RESTORE DATABASE $(TRAINING_DB)
+RESTORE DATABASE [$(TRAINING_DB)]
   FROM DISK = '$(TEMP_DIR)\master-to-training-db.bak'
   WITH REPLACE
 GO
