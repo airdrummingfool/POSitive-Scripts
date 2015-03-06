@@ -35,7 +35,7 @@ FETCH NEXT FROM report_cursor INTO @reportID, @reportName
 WHILE @@FETCH_STATUS = 0
 BEGIN
   SET @command = 'bcp "SELECT TOP 1 BID_Picture from [' + (SELECT DB_NAME()) + '].dbo.BINDOC WHERE BID_PrimaryID = ' + cast(@reportID AS VARCHAR(32))
-  SET @command = @command + '" QUERYOUT "$(REPORTS_DIR)\' + @reportName + '.mrt" -S ' + convert(varchar(20), (SELECT SERVERPROPERTY('ServerName'))) + ' -T -f "$(PWD_DIR)bcp.fmt" -a 50000'
+  SET @command = @command + '" QUERYOUT "$(REPORTS_DIR)\' + @reportName + '.mrt" -S ' + convert(varchar(20), (SELECT SERVERPROPERTY('ServerName'))) + ' -T -f "$(WD_DIR)\bcp.fmt" -a 50000'
   SET @command = @command + ' >NUL'
   EXEC master.dbo.xp_cmdshell @command
   FETCH NEXT FROM report_cursor INTO @reportID, @reportName

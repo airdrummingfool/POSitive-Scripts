@@ -1,7 +1,7 @@
 *.log
 config.ini
 temp/
-reports-bup/reports/
+reports-export/reports/
 
 # OS Files
 .DS_Store
