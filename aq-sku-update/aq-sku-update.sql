@@ -6,6 +6,8 @@
  *
  */
 
+SET NOCOUNT ON;
+
 -- Create a temporary table to list all possible correct AQ SKUs
 -- Assumes your AQ DB is called 'AQEXPORT'
 IF OBJECT_ID('tempdb..#AQ_SKUs') IS NOT NULL DROP TABLE #AQ_SKUs
