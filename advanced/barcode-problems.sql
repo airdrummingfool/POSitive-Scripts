@@ -20,14 +20,6 @@ SELECT AQ_SKU, COUNT(AQ_SKU)
   HAVING COUNT(AQ_SKU) > 1
   ORDER BY COUNT(AQ_SKU) desc
 
--- List all AQ SKUs that match up to AutoQuotes data
-SELECT * FROM BARCODES
-  WHERE BAR_ID = 2
-    AND EXISTS (
-      SELECT AQ_SKU FROM #AQ_SKUs
-        WHERE AQ_SKU = rtrim(BAR_BARCODE)
-    )
-
 -- List all non-matches
 SELECT * FROM BARCODES
   WHERE BAR_ID = 2
@@ -78,11 +70,17 @@ SELECT VIN_VINO AS CURRENT_VENDOR_SKU, left(BAR_BARCODE, charindex('@', BAR_BARC
     AND EXISTS (SELECT * FROM #AQ_SKUs WHERE rtrim(AQ_SKU) = rtrim(BAR_BARCODE))
   ORDER BY AQ_VENDOR_SKU
 
-  -- Primary SKUs that have @[####] in them (i.e. created by an AQ import)
-  SELECT *
-    FROM BARCODES
-    WHERE BAR_ID = 1
-      AND BAR_TYPE = 'I'
-      AND charindex('@', BAR_BARCODE) > 0
-      AND isnumeric(right(rtrim(BAR_BARCODE), (len(BAR_BARCODE) - charindex('@', BAR_BARCODE)))) = 1
-    ORDER BY BAR_BARCODE
+-- Primary SKUs that have @[####] in them (i.e. created by an AQ import)
+SELECT *
+  FROM BARCODES
+  WHERE BAR_ID = 1
+    AND BAR_TYPE = 'I'
+    AND charindex('@', BAR_BARCODE) > 0
+    AND isnumeric(right(rtrim(BAR_BARCODE), (len(BAR_BARCODE) - charindex('@', BAR_BARCODE)))) = 1
+  ORDER BY BAR_BARCODE
+
+-- Barcode entries that don't match up to items in ITPrice
+SELECT *
+  FROM BARCODES
+  WHERE BAR_ID != 2
+  AND NOT EXISTS (SELECT * FROM ITPrice WHERE ITP_INVNO = BAR_INVNO)

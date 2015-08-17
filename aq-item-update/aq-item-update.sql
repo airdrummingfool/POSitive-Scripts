@@ -74,7 +74,7 @@ from [$(autoquotes_db)].dbo.Products inner join [$(autoquotes_db)].dbo.AQ5StarLi
   inner join udfields on udf_invno = invno and udf_uddes1 = 'Dimensions'
 where udf_uddes1 = 'Dimensions'
 
--- UDF Field: CutsheetLink = AQ Custsheet Link
+-- UDF Field: CutsheetLink = AQ Cutsheet Link
 update udfields set udf_udfld1 = CutsheetLink
 from [$(autoquotes_db)].dbo.Products inner join [$(autoquotes_db)].dbo.AQ5StarLink on AQ5StarLink.productid = Products.productid
   inner join udfields on udf_invno = invno and udf_uddes1 = 'CutsheetLink'
