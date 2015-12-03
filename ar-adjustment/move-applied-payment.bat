@@ -18,8 +18,8 @@ set /P NewChargeTNum=Enter the Charge ID the payment should be moved to:
 set CusCode=null
 for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-cuscode.sql -h -1 -W -v TNum=%PaymentTNum%"') do @set CusCode=%%a
 
-set PaymentBalance=null
-for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-balance.sql -h -1 -W -v TNum=%PaymentTNum%"') do @set PaymentBalance=%%a
+set PaymentAmount=null
+for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0paymenttnum-chargetnum-to-applied-amount.sql -h -1 -W -v ChargeTNum=%OldChargeTNum%"') do @set PaymentAmount=%%a
 
 set OldChargeBalance=null
 for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-balance.sql -h -1 -W -v TNum=%OldChargeTNum%"') do @set OldChargeBalance=%%a
@@ -27,7 +27,7 @@ for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-b
 set NewChargeBalance=null
 for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-balance.sql -h -1 -W -v TNum=%NewChargeTNum%"') do @set NewChargeBalance=%%a
 
-echo "You want to move the application of %CusCode%'s %PaymentTNum%, which has a balance of $%PaymentBalance%, from %OldChargeTNum% (balance %OldChargeBalance%) to %NewChargeTNum% (balance %NewChargeBalance%). Is that correct?"
+echo "You want to move the application of %CusCode%'s %PaymentTNum%, in the amount of $%PaymentAmount%, from %OldChargeTNum% (balance %OldChargeBalance%) to %NewChargeTNum% (balance %NewChargeBalance%). Is that correct?"
 set /P Confirmation=(Y/N)
 
 if /I NOT '%Confirmation%'=='Y' goto Input
