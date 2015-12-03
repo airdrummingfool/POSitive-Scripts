@@ -27,7 +27,7 @@ for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-b
 set NewChargeBalance=null
 for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-balance.sql -h -1 -W -v TNum=%NewChargeTNum%"') do @set NewChargeBalance=%%a
 
-echo "You want to move the application of %CusCode%'s %PaymentTNum%, in the amount of $%PaymentAmount%, from %OldChargeTNum% (balance %OldChargeBalance%) to %NewChargeTNum% (balance %NewChargeBalance%). Is that correct?"
+echo You want to move the application of %CusCode%'s %PaymentTNum%, in the amount of $%PaymentAmount%, from %OldChargeTNum% (balance %OldChargeBalance%) to %NewChargeTNum% (balance %NewChargeBalance%). Is that correct?
 set /P Confirmation=(Y/N)
 
 if /I NOT '%Confirmation%'=='Y' goto Input

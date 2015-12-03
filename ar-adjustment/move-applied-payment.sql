@@ -15,8 +15,8 @@ UPDATE AR_CRF
   SET CRF_TNM2 = @NewChargeTNum, CRF_TID2 = (SELECT ART_T_ID FROM AR_TRN WHERE ART_TNUM = @NewChargeTNum)
   WHERE CRF_TNM2 = @OldChargeTNum AND CRF_TNM1 = @PaymentTNum
 
-DECLARE @oldChargeTotalPaid as decimal(13,4) = (SELECT sum(CRF_AMNT) FROM AR_CRF WHERE CRF_TNM2 = @OldChargeTNum)
-DECLARE @newChargeTotalPaid as decimal(13,4) = (SELECT sum(CRF_AMNT) FROM AR_CRF WHERE CRF_TNM2 = @NewChargeTNum)
+DECLARE @oldChargeTotalPaid as decimal(13,4) = isnull((SELECT sum(CRF_AMNT) FROM AR_CRF WHERE CRF_TNM2 = @OldChargeTNum), 0)
+DECLARE @newChargeTotalPaid as decimal(13,4) = isnull((SELECT sum(CRF_AMNT) FROM AR_CRF WHERE CRF_TNM2 = @NewChargeTNum), 0)
 
 UPDATE AR_TRN
   SET

@@ -9,6 +9,7 @@ REM - Author: Tommy Goode
 : Input
 set TNum=
 set /P TNum=Enter the Transaction ID:
+echo.
 
 : Confirmation
 set CusCode=null
@@ -17,7 +18,7 @@ for /f "delims=" %%a in ('call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-cu
 set Balance=null
 for /f "delims=" %%a in ('call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-balance.sql -h -1 -W') do @set Balance=%%a
 
-echo Transaction ID %TNum%, which has a balance of $%Balance% and belongs to %CusCode%. Is that correct?
+echo Recalculate Transaction %TNum%, which has a balance of $%Balance% and belongs to %CusCode%. Is that correct?
 set /P Confirmation=(Y/N)
 
 if /I NOT '%Confirmation%'=='Y' goto Input

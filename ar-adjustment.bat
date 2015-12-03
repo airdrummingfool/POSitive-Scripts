@@ -7,6 +7,9 @@ REM - Author: Tommy Goode
 call util\loadconfig.bat
 set DB=%positive_training_db%
 
+echo.
+echo POSITIVE AR ADJUSTMENTS
+
 : Menu
 echo.
 echo Choose from the following options:
@@ -50,3 +53,4 @@ call ar-adjustment/delete-applied-payment.bat
 goto Menu
 
 :End
+exit 0

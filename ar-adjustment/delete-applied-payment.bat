@@ -22,7 +22,7 @@ for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-c
 set ChargeOldBalance=null
 for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-balance.sql -h -1 -W -v TNum=%ChargeTNum%"') do @set ChargeOldBalance=%%a
 
-echo "You want to delete the application of %CusCode%'s %PaymentTNum%, in the amount of $%PaymentAmount%, from %ChargeTNum% (balance %ChargeOldBalance%). Is that correct?"
+echo You want to delete the application of %CusCode%'s %PaymentTNum%, in the amount of $%PaymentAmount%, from %ChargeTNum% (balance %ChargeOldBalance%). Is that correct?
 set /P Confirmation=(Y/N)
 
 if /I NOT '%Confirmation%'=='Y' goto Input

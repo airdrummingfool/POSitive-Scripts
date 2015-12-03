@@ -13,6 +13,7 @@ set ChargeTNum=
 set /P ChargeTNum=Enter the Charge ID the payment is applied to:
 set NewPaymentAmount=
 set /P NewPaymentAmount=Enter the amount of payment that should be applied:
+echo.
 
 : Confirmation
 set CusCode=null
@@ -21,7 +22,7 @@ for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0tnum-to-c
 set OldPaymentAmount=null
 for /f "delims=" %%a in ('"call util\sqlcmdwrapper.bat -d %DB% -i %~dp0paymenttnum-chargetnum-to-applied-amount.sql -h -1 -W"') do @set OldPaymentAmount=%%a
 
-echo "You want to change the amount applied of %CusCode%'s payment %PaymentTNum% on charge %ChargeTNum%, from $%OldPaymentAmount% to $%NewPaymentAmount%. Is that correct?"
+echo Change the amount applied of %CusCode%'s payment %PaymentTNum% on charge %ChargeTNum%, from $%OldPaymentAmount% to $%NewPaymentAmount%. Is that correct?
 set /P Confirmation=(Y/N)
 
 if /I NOT '%Confirmation%'=='Y' goto Input
