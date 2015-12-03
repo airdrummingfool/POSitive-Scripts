@@ -34,7 +34,7 @@ goto Menu
 
 : Selection2
 echo Change the amount of payment/credit applied:
-
+call ar-adjustment/change-applied-amount.bat
 goto Menu
 
 : Selection3
